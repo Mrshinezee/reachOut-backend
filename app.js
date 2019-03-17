@@ -2,13 +2,30 @@ import express from 'express';
 import winston from 'winston';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import router from './server/routes';
+import { ApolloServer} from 'apollo-server';
+import { loadTypeSchema } from './server/helper/schema';
+import { merge } from 'lodash'
+import user from './server/types/user/user.resolvers';
 
-const app = express();
-const port = 4500;
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-router(app);
-app.listen(port);
-winston.log('info', `App is listening on port ${port}`);
+const types = ['user']
+
+const start = async () => {
+  const rootSchema = `
+    schema {
+      query: Query
+      mutation: Mutation
+    }
+  `
+  const schemaTypes = await Promise.all(types.map(loadTypeSchema))
+
+  const server = new ApolloServer({
+    typeDefs: [rootSchema, ...schemaTypes],
+    resolvers: merge({}, user),
+  });
+   
+  server.listen().then(({ url }) => {
+    winston.log('info', `Server ready at ${url}`);
+  });
+} 
+
+start()
