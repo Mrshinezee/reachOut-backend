@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  test:
+    build:
+      context: ../../
+      dockerfile: docker/test/Dockerfile
+    links:
+      - database
+    env_file:
+      - ../../.env
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgres://postgres:postgres@database/reachout
+    command: tail -F anything
+    depends_on:
+      - "database"
+  database:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: reachout
