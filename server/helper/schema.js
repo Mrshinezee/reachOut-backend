@@ -10,7 +10,6 @@ export const loadTypeSchema = type => new Promise((resolve, reject) => {
     if (err) {
       return reject(err);
     }
-
     resolve(schema);
   });
 });

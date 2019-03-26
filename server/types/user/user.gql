@@ -3,7 +3,13 @@ type User {
   lastname:  String!
   email:  String!
   password:  String!
+  bio: String
 }
+
+type Authentication {
+    user: User!
+    token: String!
+  }
 
 type Query {
     currentUser(email: String!): User!
@@ -14,8 +20,16 @@ input NewUserInput {
   lastname:  String!
   email:  String!
   password:  String!
+  bio: String
+}
+
+input LogUserInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
   addUser(input: NewUserInput!): User!
+  signUp(input: NewUserInput!): Authentication
+  signIn(input: LogUserInput!): Authentication
 }
