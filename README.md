@@ -9,9 +9,9 @@ An application to send sms and email to users
 ### Getting Started
 - Clone the repository
 ```bash
-$ git clone https://github.com/andela/hofFrontEndApp.git
+$ git clone https://github.com/Mrshinezee/reachOut-backend.git
 ```
 - Navigate to the project directory
 ```bash
- $ cd hofFrontEndApp
+ $ cd reachOut-backend
 ```
